@@ -1,0 +1,102 @@
+services:
+
+  db_setup:
+    build: .
+    entrypoint: sh
+    command: -c 'bundle exec rails db:setup'
+    depends_on:
+      - db
+      - redis
+      - minio
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: 6a02178235ee3d71571590bfc618bb254edf5e87da4f1b79b9b1369d34014e890176532555480f7786c6434b1e31746a6246bc7436beff6d6846b9ef7197f28b
+      RAILS_LOG_TO_STDOUT: TRUE
+      RAILS_SERVE_STATIC_FILES: TRUE
+      DATABASE_URL: postgres://postgres:dbpassword@db/image_compressor_production
+      S3_ACCESS_KEY_ID: minioadmin
+      S3_SECRET_ACCESS_KEY: minioadmin
+      S3_BUCKET: image_compressor_production
+      S3_ENDPOINT: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:9000
+      S3_REGION: us-east-1
+      S3_FORCE_PATH_STYLE: 'TRUE'
+      REDIS_URL: redis://redis:6379
+      SMTP_ADDRESS: mailcatcher
+      SMTP_PORT: 1025
+      MAILER_URL_HOST: http://localhost:3000
+
+  web:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - db_setup
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: 6a02178235ee3d71571590bfc618bb254edf5e87da4f1b79b9b1369d34014e890176532555480f7786c6434b1e31746a6246bc7436beff6d6846b9ef7197f28b
+      RAILS_LOG_TO_STDOUT: TRUE
+      RAILS_SERVE_STATIC_FILES: TRUE
+      DATABASE_URL: postgres://postgres:dbpassword@db/image_compressor_production
+      S3_ACCESS_KEY_ID: minioadmin
+      S3_SECRET_ACCESS_KEY: minioadmin
+      S3_BUCKET: image_compressor_production
+      S3_ENDPOINT: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:9000
+      S3_REGION: us-east-1
+      S3_FORCE_PATH_STYLE: 'TRUE'
+      REDIS_URL: redis://redis:6379
+      SMTP_ADDRESS: mailcatcher
+      SMTP_PORT: 1025
+      MAILER_URL_HOST: http://localhost:3000
+
+  jobs:
+    build: .
+    entrypoint: sh
+    command: -c 'bundle exec sidekiq'
+    depends_on:
+      - db_setup
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: 6a02178235ee3d71571590bfc618bb254edf5e87da4f1b79b9b1369d34014e890176532555480f7786c6434b1e31746a6246bc7436beff6d6846b9ef7197f28b
+      RAILS_LOG_TO_STDOUT: TRUE
+      RAILS_SERVE_STATIC_FILES: TRUE
+      DATABASE_URL: postgres://postgres:dbpassword@db/image_compressor_production
+      S3_ACCESS_KEY_ID: minioadmin
+      S3_SECRET_ACCESS_KEY: minioadmin
+      S3_BUCKET: image_compressor_production
+      S3_ENDPOINT: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:9000
+      S3_REGION: us-east-1
+      S3_FORCE_PATH_STYLE: 'TRUE'
+      REDIS_URL: redis://redis:6379
+      SMTP_ADDRESS: mailcatcher
+      SMTP_PORT: 1025
+      MAILER_URL_HOST: http://localhost:3000
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: dbpassword
+    volumes:
+      - postgres_production:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    volumes:
+      - minio_production:/data
+    entrypoint: sh
+    command: -c 'mkdir -p /data/image_compressor_production && minio server /data --console-address ":9001"'
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  redis:
+    image: redis
+
+  mailcatcher:
+    image: dockage/mailcatcher
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+volumes:
+  postgres_production:
+  minio_production:

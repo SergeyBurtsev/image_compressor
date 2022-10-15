@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ImageCompressor</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application" %>
+  </head>
+
+  <body class="relative min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover relative items-center">
+  	<div class="absolute bg-black opacity-60 inset-0 z-0"></div>
+  	<div class="sm:max-w-lg w-full p-10 bg-white rounded-xl z-10">
+  		<div class="text-center">
+  			<h2 class="mt-5 text-3xl font-bold text-gray-900">
+  				Image Compressor
+  			</h2>
+  		</div>
+      
+      <%= yield %>
+    </div>
+  </body>
+</html>

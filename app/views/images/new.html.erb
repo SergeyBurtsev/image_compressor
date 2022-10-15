@@ -1,0 +1,27 @@
+<p class="mt-2 text-center text-sm text-gray-400">Enter your E-mail and get notified,<br>when image is compressed</p>
+
+<%= form_for @image, url: compress_images_path, as: "", html: { class: "mt-8 space-y-3 flex flex-col" } do |f| %>
+  <div class="space-y-2">
+    <%= f.label :email, class: "text-sm font-bold text-gray-500 tracking-wide" %>
+    <%= f.email_field :email, class: "text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 block w-full", placeholder: "mail@gmail.com" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :image_file, class: "text-sm font-bold text-gray-500 tracking-wide" %>
+    <%= f.file_field :image_file, class: "block w-full p-2 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" %>
+  </div>
+
+  <% if @image.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <ul>
+        <% @image.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Compress Image", class: "my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4 rounded-full tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300" %>
+  </div>
+<% end %>

@@ -1,0 +1,35 @@
+services:
+
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: dbpassword
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    volumes:
+      - minio:/data
+    entrypoint: sh
+    command: -c 'mkdir -p /data/image_compressor_development && minio server /data --console-address ":9001"'
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  mailcatcher:
+    image: dockage/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+volumes:
+  postgres:
+  minio:

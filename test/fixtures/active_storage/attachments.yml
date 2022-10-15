@@ -1,0 +1,9 @@
+good_image_image_file:
+  name: image_file
+  record: good (Image)
+  blob: good_image_image_file_blob
+
+bad_image_image_file:
+  name: image_file
+  record: bad (Image)
+  blob: bad_image_image_file_blob

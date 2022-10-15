@@ -1,0 +1,2 @@
+good_image_image_file_blob: <%= ActiveStorage::FixtureSet.blob filename: "good.jpg", service_name: "test_fixtures" %>
+bad_image_image_file_blob: <%= ActiveStorage::FixtureSet.blob filename: "bad.jpg", service_name: "test_fixtures" %>
