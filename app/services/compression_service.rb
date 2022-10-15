@@ -6,10 +6,12 @@ class CompressionService
   end
 
   def call
-    if image.compress
-      ImageMailer.compression_good(image).deliver_now
+    email = if image.compress?
+      ImageMailer.compression_good(image)
     else
-      ImageMailer.compression_bad(image).deliver_now
+      ImageMailer.compression_bad(image)
     end
+
+    email.deliver_now
   end
 end

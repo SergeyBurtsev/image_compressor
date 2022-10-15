@@ -3,3 +3,6 @@ good:
 
 bad:
   email: bad@example.com
+
+compressed:
+  email: good@example.com

@@ -1,8 +1,10 @@
 class ImagesController < ApplicationController
+  include ActiveStorage::Streaming
+
   skip_before_action :verify_authenticity_token
 
   def new
-    @image = Image.new
+    @image = Image.new(email: session[:email])
   end
 
   def create
@@ -11,19 +13,20 @@ class ImagesController < ApplicationController
     respond_to do |format|
       if @image.save
         CompressionJob.perform_later(@image.id)
+        session[:email] = @image.email
 
         format.html
         format.json { head :ok }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { head :unprocessable_entity }
+        format.json { render json: @image.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def download
     @image = Image.find(params[:image_id])
-    redirect_to rails_blob_path(@image.image_file.variant(:compressed), disposition: "attachment")
+    send_blob_stream(@image.image_file.variant(:compressed).image.blob, disposition: "attachment")
   end
 
   private

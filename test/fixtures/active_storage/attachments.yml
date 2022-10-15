@@ -7,3 +7,13 @@ bad_image_image_file:
   name: image_file
   record: bad (Image)
   blob: bad_image_image_file_blob
+
+compressed_image_image_file:
+  name: image_file
+  record: compressed (Image)
+  blob: compressed_image_image_file_blob
+
+compressed_image_compressed_variant:
+  name: image
+  record: compressed (ActiveStorage::VariantRecord)
+  blob: compressed_image_compressed_blob

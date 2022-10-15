@@ -1,0 +1,3 @@
+compressed:
+  blob: compressed_image_image_file_blob
+  variation_digest: <%= ActiveStorage::Variation.new(Image::COMPRESSION_SETTINGS).digest %>

@@ -52,9 +52,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "get download success" do
-    image = images(:good)
+    image = images(:compressed)
     get image_download_url(image)
-    assert_response :redirect
+    assert_response :success
   end
 
   test "get download not found" do

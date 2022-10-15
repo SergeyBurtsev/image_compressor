@@ -30,4 +30,10 @@ class ImageTest < ActiveSupport::TestCase
       assert image.errors[:email].present?
     end
   end
+
+  test "compress?" do
+    ActiveStorage::Current.url_options = { host: "https://example.com" }
+    assert images(:good).compress?
+    assert_not images(:bad).compress?
+  end
 end

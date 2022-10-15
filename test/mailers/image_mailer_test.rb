@@ -2,7 +2,7 @@ require "test_helper"
 
 class ImageMailerTest < ActionMailer::TestCase
   test "compression_success" do
-    image = images(:good)
+    image = images(:compressed)
     email = ImageMailer.compression_good(image)
 
     assert_emails 1 do
