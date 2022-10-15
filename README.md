@@ -1,15 +1,15 @@
 # Image Compressor
 
 Uses:
-Ruby 3.1.2 (latest)
-Rails 7.0.4 (latest)
-ActiveStorage (as default Rails files management gem, could be something else)
-Minio (as simple S3 alternative)
-PostgreSQL (for records persistence, can be done without persistence and db altogether though)
-Redis & Sidekiq (for jobs as required)
-TailwindCSS (as experiment :)
+- Ruby 3.1.2 (latest)
+- Rails 7.0.4 (latest)
+- ActiveStorage (as default Rails files management gem, could be something else)
+- Minio (as simple S3 alternative)
+- PostgreSQL (for records persistence, can be done without persistent records and db altogether though)
+- Redis & Sidekiq (for jobs as required)
+- TailwindCSS (as experiment :)
 
-(docker-compose.yml can be and should be optimized - my bad)
+*(docker-compose.yml can and should be optimised & refactored - my bad)*
 
 ## Running in production mode (everything is dockerized)
 ```
@@ -35,8 +35,8 @@ curl \
 ## Running in development mode (only external services are dockerized)
 
 Requirements:
-Ruby 3.1.2
-Vips for image processing (`brew install vips`)
+* Ruby 3.1.2
+* Vips for image processing (`brew install vips`)
 
 Run dockerized services and keep them running:
 ```
